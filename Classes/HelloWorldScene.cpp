@@ -1,5 +1,7 @@
 #include "HelloWorldScene.h"
 
+#import "SimpleAudioEngine.h"
+
 USING_NS_CC;
 
 
@@ -46,6 +48,15 @@ bool HelloWorld::init(){
         return false;
     }
     
+    
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("pickup.caf");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("hit.caf");
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->preloadEffect("move.caf");
+    
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("TileMap.caf");
+    
+    
+
     
     this->setTouchEnabled(true);
     
@@ -193,6 +204,7 @@ void HelloWorld::setPlayerPosition(cocos2d::CCPoint position) {
             
             if((collision)&&(collision->compare(ccs("True")->getCString()) == 0)){
                 
+                CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("hit.caf");
                 return;
             }
             
@@ -207,14 +219,14 @@ void HelloWorld::setPlayerPosition(cocos2d::CCPoint position) {
                 
                 _hud->numCollectedChanged(_numCollected);
                 
-                
+                CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("pickup.caf");
                 
             }
             
             
         }
     }
-    
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("move.caf");
 	_player->setPosition(position);
 }
 
